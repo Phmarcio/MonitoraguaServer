@@ -20,6 +20,8 @@ urlpatterns = [
     url(r'^noticias/(?P<pk>[0-9]+)/$', views.NoticiaDetail.as_view(), name='noticia-detail'),
 
     url(r'^relatorio/$', views.RelatorioCriar.as_view(), name='relatorio-assunto-create'),
+
+    url(r'^chamado/$', views.ChamadoCriar.as_view(), name='chamado-assunto-create'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

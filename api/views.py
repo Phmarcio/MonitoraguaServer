@@ -12,8 +12,8 @@ from .serializers import SetorSerializer, HistoricoSerializer, BairroSerializer
 from noticias.serializers import NoticiaSerializer
 from noticias.models import Noticia
 
-from relatorio.models import Relatorio
 from relatorio.serializers import RelatorioSerializer
+from chamados.serializers import ChamadoSerializer
 from gerenciar_abastecimento.models import Setor, Historico, Bairro
 
 
@@ -26,6 +26,7 @@ def api_root(request, format=None):
         'historicos': reverse('api:historico-list', request=request, format=format),
         'noticias': reverse('api:noticia-list', request=request, format=format),
         'relatorio': reverse('api:relatorio-assunto-create', request=request, format=format),
+        'chamados': reverse('api:chamado-assunto-create', request=request, format=format),
     })
 
 
@@ -118,6 +119,24 @@ class RelatorioCriar(APIView):
 
     def post(self, request, format=None):
         serializer = RelatorioSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChamadoCriar(APIView):
+    """
+    Chamados no sistema
+    """
+
+    def get(self, request, format=None):
+        # capturando a tupla de choices e convertendo para dicionario
+        from chamados.models import TIPO_ASSUNTO
+        return Response(dict(map(reversed, TIPO_ASSUNTO)))
+
+    def post(self, request, format=None):
+        serializer = ChamadoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
