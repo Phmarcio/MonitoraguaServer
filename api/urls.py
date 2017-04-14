@@ -15,6 +15,11 @@ urlpatterns = [
 
     url(r'^historicos/$', views.HistoricoList.as_view(), name='historico-list'),
     url(r'^historicos/(?P<pk>[0-9]+)/$', views.HistoricoDetail.as_view(), name='historico-detail'),
+
+    url(r'^noticias/$', views.NoticiaList.as_view(), name='noticia-list'),
+    url(r'^noticias/(?P<pk>[0-9]+)/$', views.NoticiaDetail.as_view(), name='noticia-detail'),
+
+    url(r'^relatorio/$', views.RelatorioCriar.as_view(), name='relatorio-assunto-create'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
