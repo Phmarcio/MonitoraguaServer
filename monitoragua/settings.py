@@ -46,6 +46,7 @@ LOCAL_APPS = [
     'api.apps.ApiConfig',
     'noticias.apps.NoticiasConfig',
     'relatorio.apps.RelatorioConfig',
+    'chamados.apps.ChamadosConfig',
 ]
 
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DEFAULT_APPS
