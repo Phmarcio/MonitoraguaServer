@@ -1,9 +1,16 @@
 from django.conf.urls import url
+from rest_framework.urlpatterns import format_suffix_patterns
 from . import views
 
 app_name = 'api'
 
 urlpatterns = [
-    url(r'^setores/$', views.Setores.as_view(), name='setores'),
-    url(r'^historicos/$', views.Historicos.as_view(), name='historicos'),
+    url(r'^$', views.api_root),
+    url(r'^setores/$', views.SetorList.as_view(), name='setor-list'),
+    url(r'^setores/(?P<pk>[0-9]+)/$', views.SetorDetail.as_view(), name='setor-detail'),
+
+    url(r'^historicos/$', views.HistoricoList.as_view(), name='historico-list'),
+    url(r'^historicos/(?P<pk>[0-9]+)/$', views.HistoricoDetail.as_view(), name='historico-detail'),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)

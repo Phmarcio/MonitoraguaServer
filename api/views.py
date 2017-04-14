@@ -1,38 +1,49 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import generics
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from .serializers import SetorSerializer, HistoricoSerializer
 from gerenciar_abastecimento.models import Setor, Historico
-# Create your views here.
 
-class Setores(APIView):
+
+# Create your views here.
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'setores': reverse('api:setor-list', request=request, format=format),
+        'historicos': reverse('api:historico-list', request=request, format=format)
+    })
+
+class SetorList(generics.ListCreateAPIView):
     """
     Recupera todos os setores
     """
-
-    def get(self, request, format=None):
-        serializer_context = {
-            'request': request
-        }
-        setores = Setor.objects.all()
-        serializer = SetorSerializer(setores, context=serializer_context, many=True)
-        return Response(serializer.data)
+    queryset = Setor.objects.all()
+    serializer_class = SetorSerializer
 
 
-class Historicos(APIView):
+class SetorDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Detalha um setor
+    """
+    queryset = Setor.objects.all()
+    serializer_class = SetorSerializer
+
+
+class HistoricoList(generics.ListCreateAPIView):
     """
     Recupera todo o historico
     """
+    queryset = Historico.objects.all()
+    serializer_class = HistoricoSerializer
 
-    def get(self, request, format=None):
-        serializer_context = {
-            'request': request
-        }
-        historicos = Historico.objects.all()
-        serializer = HistoricoSerializer(historicos, context=serializer_context, many=True)
-        return Response(serializer.data)
+
+class HistoricoDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Detalha um histórico
+    """
+    queryset = Historico.objects.all()
+    serializer_class = HistoricoSerializer
